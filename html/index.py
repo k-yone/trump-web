@@ -50,4 +50,4 @@ def servo_route():
     return jsonify(ResulfSet=ret)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False, host='127.0.0.1', port=11113)
