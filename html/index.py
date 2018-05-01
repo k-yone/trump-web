@@ -47,7 +47,7 @@ def servo_route():
     else:
         ret = {'duty': '{}'.format(duty),
                'position': '{}'.format(position)}
-    return jsonify(ResulfSet=ret)
+    return jsonify(ResultSet=ret)
 
 if __name__ == '__main__':
     app.run(debug=False, host='127.0.0.1', port=11113)
