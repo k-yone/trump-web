@@ -27,6 +27,8 @@ class Servo:
         position = POS_MIN + (self.duty-DUTY_MIN)*(POS_MAX-POS_MIN)/(DUTY_MAX-DUTY_MIN)
         return position
 
+app = Flask(__name__)
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -48,4 +50,4 @@ def servo_route():
     return jsonify(ResulfSet=ret)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
