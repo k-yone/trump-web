@@ -17,14 +17,14 @@ class Servo:
     def set_position(self, position):
         if(position >= POS_MIN and position <= POS_MAX):
             duty = DUTY_MAX - 1.0*(position-POS_MIN)*(DUTY_MAX-DUTY_MIN)/(POS_MAX-POS_MIN)
-            self.duty = round(duty)
+            self.duty = int(round(duty))
 
     def get_duty(self):
         return self.duty
 
     def to_position(self):
         position = POS_MIN + 1.0*(DUTY_MAX-self.duty)*(POS_MAX-POS_MIN)/(DUTY_MAX-DUTY_MIN)
-        return round(position)
+        return int(round(position))
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ def index():
 @app.route("/servo")
 def servo_route():
     position = request.args.get('position')
-    duty = int(open('/var/www/html/servo.conf', 'r').read())
+    duty = int(float(open('/var/www/html/servo.conf', 'r').read()))
     servo = Servo(duty)
     if (position):
         servo.set_position(int(position))
