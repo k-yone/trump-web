@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+<style>
+ img {
+		 width: 80%;
+		 margin: 0 auto;
+ }
+</style>
+
+{% block content %}
+
+<div>
+		<br>
+		<h3 class="category">ワガハイハ サラマンダー</h3>
+		<img src="video" class="rounded img-raised">
+		<br>		<br>		<br>
+		<div id="slider" class="slider slider-primary"></div>
+</div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script>
+ window.onload = function() {
+		 var slider = document.getElementById("slider");
+     var position;
+
+     $.ajax({
+         type: "GET",
+         url: "./servo",
+         data: {"position": value},
+         success: function(j_data){
+             var data = $.parseJSON(j_data)
+             position = data["position"]
+         }
+     });
+
+		 noUiSlider.create(slider, {
+				 start: position,
+				 step: 1,
+				 connect: "lower",
+				 range: {
+						 min: -5,
+						 max: 5
+				 }
+		 });
+
+		 slider.noUiSlider.on("slide", function() {
+				 var value = slider.noUiSlider.get();
+         console.log(value);
+         $.ajax({
+             type: "GET",
+             url: "./servo",
+             data: {"position": value},
+             success: function(j_data){
+                 console.log(j_data);
+             }
+         });
+		 });
+ }
+</script>
+
+{% endblock %}
