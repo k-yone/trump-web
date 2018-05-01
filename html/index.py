@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import subprocess
 
 DUTY_BIN = 25
@@ -36,17 +36,17 @@ def index():
 @app.route("/servo")
 def servo_route():
     position = request.args.get('position')
-    duty = int(open('/var/www/api/servo.conf', 'r').read())
+    duty = int(open('/var/www/html/servo.conf', 'r').read())
     servo = Servo(duty)
     if (position):
-        servo.set_position(position)
-        open('/var/www/api/servo.conf', 'w').write('{}'.format(servo.to_duty()))
-        subprocess.call('/var/www/api/pwm')
+        servo.set_position(int(position))
+        open('/var/www/html/servo.conf', 'w').write('{}'.format(servo.get_duty()))
+        subprocess.call('/var/www/html/pwm')
         ret = {'duty': '{}'.format(servo.get_duty()),
                'position': '{}'.format(servo.to_position())}
     else:
-        ret = {'duty': '{}'.format(duty),
-               'position': '{}'.format(position)}
+        ret = {'duty': '{}'.format(servo.get_duty()),
+               'position': '{}'.format(servo.to_position())}
     return jsonify(ResultSet=ret)
 
 if __name__ == '__main__':

@@ -21,14 +21,14 @@
 <script>
  window.onload = function() {
 		 var slider = document.getElementById("slider");
-     var position;
+     var position = 0;
 
      $.ajax({
          type: "GET",
          url: "./servo",
+         async: false,
          success: function(j_data){
-             var data = $.parseJSON(j_data)
-             position = data["position"]
+             position = j_data.ResultSet.position;
          }
      });
 
@@ -43,7 +43,7 @@
 		 });
 
 		 slider.noUiSlider.on("slide", function() {
-				 var value = slider.noUiSlider.get();
+				 var value = parseInt(slider.noUiSlider.get());
          console.log(value);
          $.ajax({
              type: "GET",
