@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import subprocess
 
-DUTY_BIN = 25
 DUTY_MAX = 225
 DUTY_MIN = 100
 POS_MIN = -5
@@ -17,15 +16,15 @@ class Servo:
 
     def set_position(self, position):
         if(position >= POS_MIN and position <= POS_MAX):
-            duty = DUTY_MIN + (position-POS_MIN)*(DUTY_MAX-DUTY_MIN)/(POS_MAX-POS_MIN)
-            self.duty = duty
+            duty = DUTY_MAX - 1.0*(position-POS_MIN)*(DUTY_MAX-DUTY_MIN)/(POS_MAX-POS_MIN)
+            self.duty = round(duty)
 
     def get_duty(self):
         return self.duty
 
     def to_position(self):
-        position = POS_MIN + (self.duty-DUTY_MIN)*(POS_MAX-POS_MIN)/(DUTY_MAX-DUTY_MIN)
-        return position
+        position = POS_MIN + 1.0*(DUTY_MAX-self.duty)*(POS_MAX-POS_MIN)/(DUTY_MAX-DUTY_MIN)
+        return round(position)
 
 app = Flask(__name__)
 
