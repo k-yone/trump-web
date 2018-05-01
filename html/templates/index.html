@@ -26,7 +26,6 @@
      $.ajax({
          type: "GET",
          url: "./servo",
-         data: {"position": value},
          success: function(j_data){
              var data = $.parseJSON(j_data)
              position = data["position"]
