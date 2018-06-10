@@ -15,7 +15,7 @@ img {
     <img src="video" class="rounded img-raised">
     <br>		<br>		<br>
     <div>
-        <input id="switch" type="checkbox" name="checkbox" class="bootstrap-switch"
+        <input id="light" type="checkbox" name="checkbox" class="bootstrap-switch"
             data-on-label="ON"
             data-off-label="OFF"
         />
@@ -27,7 +27,7 @@ img {
 <script>
 window.onload = function() {
     var slider = document.getElementById("slider");
-    var switch = document.getElementById("switch");
+    var light = document.getElementById("light");
     var position = 0;
     var light_mode = 0;
 
@@ -46,7 +46,7 @@ window.onload = function() {
         async: false,
         success: function(j_data){
             light_mode = j_data.ResultSet.mode;
-            switch.checked = (light_mode == 1);
+            light.checked = (light_mode == 1);
         }
     });
 
@@ -73,8 +73,8 @@ window.onload = function() {
         });
     });
 
-    switch.on("change", function() {
-        var value = switch.checked?1:0;
+    light.on("change", function() {
+        var value = light.checked?1:0;
         console.log(value);
         $.ajax({
             type: "GET",
