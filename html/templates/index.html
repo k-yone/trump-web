@@ -1,103 +1,91 @@
 {% extends "layout.html" %}
 
 <style>
- img {
-		 width: 80%;
-		 margin: 0 auto;
- }
+img {
+    width: 80%;
+    margin: 0 auto;
+}
 </style>
 
 {% block content %}
 
 <div>
-		<br>
-		<h3 class="category">ワガハイハ サラマンダー</h3>
-		<img src="video" class="rounded img-raised">
-		<br>		<br>		<br>
+    <br>
+    <h3 class="category">ワガハイハ サラマンダー</h3>
+    <img src="video" class="rounded img-raised">
+    <br>		<br>		<br>
     <div>
-      <input id="switch" type="checkbox" name="checkbox" class="bootstrap-switch"
+        <input id="switch" type="checkbox" name="checkbox" class="bootstrap-switch"
             data-on-label="ON"
             data-off-label="OFF"
-            onclick="lightcontrol(this.checked);"
-      />
+        />
     </div>
-		<div id="slider" class="slider slider-primary"></div>
+    <div id="slider" class="slider slider-primary"></div>
 </div>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script>
- window.onload = function() {
-		 var slider = document.getElementById("slider");
-     var switch = document.getElementById("switch");
-     var position = 0;
-     var light_mode = 0;
+window.onload = function() {
+    var slider = document.getElementById("slider");
+    var switch = document.getElementById("switch");
+    var position = 0;
+    var light_mode = 0;
 
-     $.ajax({
-         type: "GET",
-         url: "./servo",
-         async: false,
-         success: function(j_data){
-             position = j_data.ResultSet.position;
-         }
-     });
+    $.ajax({
+        type: "GET",
+        url: "./servo",
+        async: false,
+        success: function(j_data){
+            position = j_data.ResultSet.position;
+        }
+    });
 
-     $.ajax({
-         type: "GET",
-         url: "./light",
-         async: false,
-         success: function(j_data){
-             light_mode = j_data.ResultSet.mode;
-             switch.checked = (light_mode == 1);
-         }
-     });
+    $.ajax({
+        type: "GET",
+        url: "./light",
+        async: false,
+        success: function(j_data){
+            light_mode = j_data.ResultSet.mode;
+            switch.checked = (light_mode == 1);
+        }
+    });
 
-		 noUiSlider.create(slider, {
-				 start: position,
-				 step: 1,
-				 connect: "lower",
-				 range: {
-						 min: -5,
-						 max: 5
-				 }
-		 });
+    noUiSlider.create(slider, {
+        start: position,
+        step: 1,
+        connect: "lower",
+        range: {
+            min: -5,
+            max: 5
+        }
+    });
 
-		 slider.noUiSlider.on("slide", function() {
-				 var value = parseInt(slider.noUiSlider.get());
-         console.log(value);
-         $.ajax({
-             type: "GET",
-             url: "./servo",
-             data: {"position": value},
-             success: function(j_data){
-                 console.log(j_data);
-             }
-         });
-		 });
- }
+    slider.noUiSlider.on("slide", function() {
+        var value = parseInt(slider.noUiSlider.get());
+        console.log(value);
+        $.ajax({
+            type: "GET",
+            url: "./servo",
+            data: {"position": value},
+            success: function(j_data){
+                console.log(j_data);
+            }
+        });
+    });
 
- function lightcontrol(ischecked){
-   if(ischecked){
-     console.log("lighton");
-     $.ajax({
-         type: "GET",
-         url: "./light",
-         data: {"mode": 1},
-         success: function(j_data){
-             console.log(j_data);
-         }
-     });
-   }else{
-     console.log("lightoff");
-     $.ajax({
-         type: "GET",
-         url: "./light",
-         data: {"mode": 0},
-         success: function(j_data){
-             console.log(j_data);
-         }
-     });
-   }
- }
+    switch.on("change", function() {
+        var value = switch.checked?1:0;
+        console.log(value);
+        $.ajax({
+            type: "GET",
+            url: "./light",
+            data: {"mode": value},
+            success: function(j_data){
+                console.log(j_data);
+            }
+        });
+    });
+}
 </script>
 
 {% endblock %}
