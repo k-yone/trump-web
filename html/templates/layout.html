@@ -40,14 +40,19 @@
 						 justify-content: center;
 						 align-items: center;
 				 }
-                 input[type=checkbox]:before {
+                 input[type=checkbox] .light{
+                     width: 50px;
+                     height: 50px;
+                     display: none;
+                 }
+                 input[type=checkbox] .light:before {
                      content:"";
                      display:inline-block;
                      width:50px;
                      height:50px;
                      background-image:url("{{url_for('static', filename='assets/img/lightoff.png')}}");
                  }
-                 input[type=checkbox]:checked:before {
+                 input[type=checkbox] .light:checked:before {
                      background-image:url("{{url_for('static', filename='assets/img/lighton.png')}}");
                  }
 				</style>
