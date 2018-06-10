@@ -15,6 +15,6 @@ chown :pi /var/www/html/light.conf
 chmod ug+s /var/www/html/pwm
 chmod ug+s /var/www/html/light
 
-chmod a+r /var/www/html/servo.conf
-chmod a+r /var/www/html/light.conf
+chmod 664 /var/www/html/servo.conf
+chmod 664 /var/www/html/light.conf
 
