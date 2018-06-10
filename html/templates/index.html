@@ -73,8 +73,8 @@ window.onload = function() {
         });
     });
 
-    light.on("change", function() {
-        var value = light.checked?1:0;
+    light.addEventListener("change", (event) => {
+        var value = event.target.checked?1:0;
         console.log(value);
         $.ajax({
             type: "GET",
