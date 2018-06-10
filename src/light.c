@@ -12,7 +12,7 @@ int main (void)
   if(wiringPiSetup () == -1)
     exit(1);
 
-  pinMode (LED, OUTPUT) ;
+  pinMode (LED, OUTPUT);
 
   fp = fopen("light.conf", "r");
   if(fp == NULL){
@@ -25,7 +25,7 @@ int main (void)
 
   if(i){
     digitalWrite (LED, HIGH) ;  // On
-  }els{
+  }else{
     digitalWrite (LED, LOW) ;  // On
   }
 
