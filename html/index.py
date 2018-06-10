@@ -48,5 +48,17 @@ def servo_route():
                'position': '{}'.format(servo.to_position())}
     return jsonify(ResultSet=ret)
 
+@app.route("/light")
+def light_route():
+    mode = request.args.get('mode')
+    if (mode):
+        open('/var/www/html/light.conf', 'w').write('{}'.format(mode))
+        subprocess.call('/var/www/html/light')
+        ret = {'mode': '{}'.format(mode)}
+    else:
+        mode = int(float(open('/var/www/html/light.conf', 'r').read()))
+        ret = {'mode': '{}'.format(mode)}
+    return jsonify(ResultSet=ret)
+
 if __name__ == '__main__':
     app.run(debug=False, host='127.0.0.1', port=11113)
